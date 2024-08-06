@@ -1,0 +1,55 @@
+<!-- <%- include("templates/encaInicio") %> -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Tabla</title>
+</head>
+<body>
+    <div id="attribute-section" class="hidden">
+        <h2>Atributos de la Tabla</h2>
+        <div class="form-nomTab">
+            <label for="attributeName">Nombre del Atributo:</label>
+            <input type="text" id="attributeName">
+        </div>
+        <div class="form-tipoAt">
+            <label for="attributeType">Tipo del Atributo:</label>
+            <select id="attributeType" onchange="checkVarcharType()">
+                <option value="int">int</option>
+                <option value="varchar">varchar</option>
+                <option value="double">double</option>
+            </select>
+        </div>
+        <div class="form-varchar" id="varcharSizeGroup">
+            <label for="varcharSize">Tamaño de varchar:</label>
+            <input type="number" id="varcharSize" min="1">
+        </div>
+        <div class="form-carac">
+            <label>Características del atributo:</label>
+            <div>
+                <input type="checkbox" id="unique" value="unique">
+                <label for="unique">Única</label>
+            </div>
+            <div>
+                <input type="checkbox" id="not_null" value="not null">
+                <label for="not_null">No Nulo</label>
+            </div>
+            <div>
+                <input type="checkbox" id="primary" value="primary key">
+                <label for="primary">Llave Primaria</label>
+            </div>
+            <div>
+                <input type="checkbox" id="foreign" value="foreign key">
+                <label for="foreign">Llave Foránea</label>
+            </div>
+            <div>
+                <input type="checkbox" id="null" value="null">
+                <label for="null">Nulo</label>
+            </div>
+        </div>
+        <button id="btn_cTab" onclick="finishTable()">Crear Atributo</button>
+    </div>
+</body>
+</html>
+    <!-- <%- include("templates/pie") %> -->

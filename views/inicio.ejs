@@ -1,0 +1,84 @@
+<!-- <%- include("templates/encaInicio") %> -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="opc-superior">
+        <div class="header">
+            <h1 class="title">DataVision</h1>
+            <div class="estados">
+                <p class="estado">Estado:</p>
+                <p class="conexion"><%= conectado ? 'Conectado' : 'No Conectado' %></p>
+                <p class="latencia">Latencia: <%= conectado ? latencia + 'ms' : 'N/A' %></p><i class="fa-solid fa-signal"></i>
+            </div>
+        </div>
+        <!-- Formulario para crear una nueva base de datos -->
+        <div class="btn100">
+            <form action="/" method="post">
+                <button type="submit" class="btn btn-primary btn-crear">Crear una nueva base de datos</button>
+            </form>
+        </div>
+        <div class="mostrarBd tablas-bd">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre de la BD</th>
+                        <th>Tablas</th>
+                        <th>Editar</th>
+                        <th>Borrar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (basesDeDatos && basesDeDatos.length> 0) { %>
+                        <% basesDeDatos.forEach((db)=> { %> <!-- todas las BD que cumplen con la validación -->
+                            <tr class="hover">
+                                <td>
+                                    <%= db.Database %>
+                                </td> <!-- variable para el nombre de la BD -->
+                                <td>
+                                    <a href="/tablas/<%= db.Database %>">
+                                        <i class="fa-solid fa-table" id="icons"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="/editarBaseDeDatos/<%= db.Database %>" class="btn btn-warning">
+                                        <i class="fa-solid fa-pen-to-square" id="icons"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <form action="/eliminarBaseDeDatos/<%= db.Database %>" method="post"
+                                        style="display:inline;">
+                                        <button type="submit" class="btn btn-danger btn-borrar">
+                                            <i class="fa-solid fa-trash" id="icons"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }) %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="3">No hay bases de datos disponibles</td>
+                                    </tr>
+                                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
+
+
+
+
+<!-- <%- include("templates/pie") %> -->

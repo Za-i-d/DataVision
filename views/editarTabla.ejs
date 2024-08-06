@@ -1,0 +1,120 @@
+<!-- <%- include("templates/encaInicio") %> -->
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Editar Tabla - <%= tableName %>
+    </title>
+</head>
+
+<body>
+    <div class="header">
+        <h1 class="title">DataVision</h1>
+        <div class="estados">
+            <p class="estado">Estado:</p>
+            <p class="conexion">
+                <%= conectado ? 'Conectado' : 'No Conectado' %>
+            </p>
+            <p class="latencia">Latencia: <%= conectado ? latencia + 'ms' : 'N/A' %>
+            </p><i class="fa-solid fa-signal"></i>
+        </div>
+    </div>
+    <div class="cont-tablas">
+        <h2 class="TB-Insert">Editando Tabla: <%= tableName %> en <%= databaseName %>
+        </h2>
+        <button onclick="window.location.href='/tablas/<%= databaseName %>'" class="btn-crear btn-back">Volver a Tablas</button>
+        <div class="editarTabla">
+            <h3 class="TB-Insert">Agregar Columna</h3>
+            <form action="/agregarColumna/<%= databaseName %>/<%= tableName %>" method="post">
+                <div class="tablas-bd insert-r">
+                    <input type="text" name="columnName" placeholder="Nombre del Atributo" required>
+                    <select name="columnType" required>
+                        <option value="int">int</option>
+                        <option value="varchar">varchar</option>
+                        <option value="double">double</option>
+                    </select>
+                    <input type="number" name="varcharSize" placeholder="Tamaño (para varchar)" min="1">
+                    <div>
+                        <input type="checkbox" name="unique" value="unique">
+                        <label for="unique">Única</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="notNull" value="not null">
+                        <label for="notNull">No Nulo</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="foreign" value="foreign key">
+                        <label for="foreign">Llave Foránea</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="nullable" value="null">
+                        <label for="nullable">Nulo</label>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-crear">Agregar Columna</button>
+                </div>
+            </form>
+
+            <h3 class="TB-Insert">Eliminar Columna</h3>
+            <form action="/eliminarColumna/<%= databaseName %>/<%= tableName %>" method="post"
+                onsubmit="return confirmDeletePrimaryKey(event)">
+                <div class="tablas-bd insert-r">
+                    <input type="text" name="columnName" placeholder="Nombre del Atributo" required>
+                    <button type="submit" class="btn btn-danger btn-crear">Eliminar Columna</button>
+                </div>
+            </form>
+
+            <h3 class="TB-Insert">Modificar Columna</h3>
+            <form action="/modificarColumna/<%= databaseName %>/<%= tableName %>" method="post">
+                <div class="tablas-bd insert-r">
+                    <input type="text" name="oldColumnName" placeholder="Nombre Actual del Atributo" required>
+                    <input type="text" name="newColumnName" placeholder="Nuevo Nombre del Atributo" required>
+                    <select name="newColumnType" required>
+                        <option value="int">int</option>
+                        <option value="varchar">varchar</option>
+                        <option value="double">double</option>
+                    </select>
+                    <input type="number" name="newVarcharSize" placeholder="Tamaño (para varchar)" min="1">
+                    <div>
+                        <input type="checkbox" name="newUnique" value="unique">
+                        <label for="newUnique">Única</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="newNotNull" value="not null">
+                        <label for="newNotNull">No Nulo</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="newForeign" value="foreign key">
+                        <label for="newForeign">Llave Foránea</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="newNullable" value="null">
+                        <label for="newNullable">Nulo</label>
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-crear">Modificar Columna</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function confirmDeletePrimaryKey(event) {
+            const columnName = event.target.columnName.value;
+            if (columnName.toLowerCase() === 'id') {
+                alert('No se puede eliminar el campo primary key.');
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+
+</html>
+
+
+<!-- <%- include("templates/pie") %> -->

@@ -1,0 +1,31 @@
+<%- include("templates/encaInicio") %>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Base de Datos</title>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">DataVision</h1>
+        <div class="estados">
+            <p class="estado">Estado:</p>
+            <p class="conexion">
+                <%= conectado ? 'Conectado' : 'No Conectado' %>
+            </p>
+            <p class="latencia">Latencia: <%= conectado ? latencia + 'ms' : 'N/A' %>
+            </p><i class="fa-solid fa-signal"></i>
+        </div>
+    </div>
+    <form action="/crearBaseDeDatos" method="post">
+        <div class="tablas-bd crear-bd">
+            <label for="databaseName">Nombre de la Base de Datos:</label>
+            <input type="text" id="databaseName" name="databaseName" required>
+        </div>
+        <button type="submit" class="btn-crear btn-actualizar">Crear Base de Datos</button>
+    </form>
+</body>
+</html>
+
+ <%- include("templates/pie") %> 

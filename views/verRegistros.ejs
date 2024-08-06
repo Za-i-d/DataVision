@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Registros</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">DataVision</h1>
+            <div class="estados">
+                <p class="estado">Estado:</p>
+                <p class="conexion"><%= conectado ? 'Conectado' : 'No Conectado' %></p>
+                <p class="latencia">Latencia: <%= conectado ? latencia + 'ms' : 'N/A' %></p><i class="fa-solid fa-signal"></i>
+            </div>
+        </div>
+        <h2 class="TB-Registro">Registros en la tabla <%= tableName %></h2>
+        <table class="table table-striped tablas-bd">
+            <thead>
+                <tr>
+                    <% Object.keys(registros[0] || {}).forEach((campo) => { %>
+                        <th class="thCampo"><%= campo %></th>
+                    <% }) %>
+                    <th>Editar</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% registros.forEach((registro) => { %>
+                    <tr class="hover">
+                        <% Object.keys(registro).forEach((campo) => { %>
+                            <td><%= registro[campo] %></td>
+                        <% }) %>
+                        <td>
+                            <a href="/editarRegistro/<%= databaseName %>/<%= tableName %>/<%= registro[clavePrimaria] %>">
+                                <i class="fa-solid fa-pen-to-square" id="icons"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <form action="/eliminarRegistro/<%= databaseName %>/<%= tableName %>/<%= registro.Id %>" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-borrar">
+                                    <i class="fa-solid fa-trash" id="icons"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <a href="/insertarRegistro/<%= databaseName %>/<%= tableName %>"><button class="btn btn-primary btn-crear btn-insertar">Insertar Registro</button></a>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,67 @@
+<!-- <%- include("templates/encaInicio") %> -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="cont-tablas">
+        <div class="header">
+            <h1 class="title">DataVision</h1>
+            <div class="estados">
+                <p class="estado">Estado:</p>
+                <p class="conexion"><%= conectado ? 'Conectado' : 'No Conectado' %></p>
+                <p class="latencia">Latencia: <%= conectado ? latencia + 'ms' : 'N/A' %></p><i class="fa-solid fa-signal"></i>
+            </div>
+        </div>
+        <div class="btn100">
+            <a href="/crearTabla">
+                <button type="button" onclick="createTable()" class="btn-crear btn-tabla">Crear Tabla</button>
+            </a>
+        </div>
+        <h2 class="TB-Exists">Tablas Existentes</h2>
+        <div class="mostrarTablas tablas-bd">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="thTablas">Nombre</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% tableNames.forEach((tabla) => { %>
+                        <tr class="hover">
+                            <td>
+                                <a href="/verRegistros/<%= databaseName %>/<%= tabla %>"><%= tabla %></a>
+                            </td>
+                            <td>
+                                <a href="/editarTabla/<%= databaseName %>/<%= tabla %>">
+                                    <i class="fa-solid fa-pen-to-square" id="icons"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <form action="/eliminarTabla/<%= databaseName %>/<%= tabla %>" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-borrar">
+                                        <i class="fa-solid fa-trash" id="icons"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+    <!-- <%- include("templates/pie") %> -->

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertar Registro en <%= tableName %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">DataVision</h1>
+        <div class="estados">
+            <p class="estado">Estado:</p>
+            <p class="conexion">
+                <%= conectado ? 'Conectado' : 'No Conectado' %>
+            </p>
+            <p class="latencia">Latencia: <%= conectado ? latencia + 'ms' : 'N/A' %>
+            </p><i class="fa-solid fa-signal"></i>
+        </div>
+    </div>
+    <h2 class="TB-Insert">Insertar Registro en la Tabla: <%= tableName %></h2>
+    <form action="/insertarRegistro/<%= databaseName %>/<%= tableName %>" method="post">
+        <div class="tablas-bd insert-r">
+            <% campos.forEach(campo => { %>
+                <div>
+                    <label for="<%= campo.Field %>"><%= campo.Field %> (<%= campo.Type %>):</label>
+                    <input type="text" id="<%= campo.Field %>" name="<%= campo.Field %>" required>
+                </div>
+            <% }) %>
+            <button type="submit" class="btn-crear btn-insert">Insertar Registro</button>
+        </div>
+    </form>
+</body>
+</html>

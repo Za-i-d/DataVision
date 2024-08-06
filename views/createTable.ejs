@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Crear Tabla</title>
+    <script>
+        let attributes = [];
+
+        function checkVarcharType() {
+            const attributeType = document.getElementById("attributeType").value;
+            const varcharSizeGroup = document.getElementById("varcharSizeGroup");
+            if (attributeType === "varchar") {
+                varcharSizeGroup.style.display = "block";
+            } else {
+                varcharSizeGroup.style.display = "none";
+            }
+        }
+
+        function addAttributeToList() {
+            const attributeName = document.getElementById("attributeName").value;
+            const attributeType = document.getElementById("attributeType").value;
+            const varcharSize = document.getElementById("varcharSize").value;
+            const unique = document.getElementById("unique").checked;
+            const notNull = document.getElementById("not_null").checked;
+            const primary = document.getElementById("primary").checked;
+            const foreign = document.getElementById("foreign").checked;
+            const nullable = document.getElementById("null").checked;
+
+            const attribute = {
+                nombre: attributeName,
+                tipo: attributeType,
+                tamano: attributeType === 'varchar' ? varcharSize : null,
+                unico: unique,
+                noNulo: notNull,
+                llavePrimaria: primary,
+                llaveForanea: foreign,
+                nulo: nullable
+            };
+
+            attributes.push(attribute);
+            document.getElementById("attributes").value = JSON.stringify(attributes);
+
+            // Clear fields after adding
+            document.getElementById("attributeName").value = '';
+            document.getElementById("attributeType").value = 'int';
+            document.getElementById("varcharSize").value = '';
+            document.getElementById("unique").checked = false;
+            document.getElementById("not_null").checked = false;
+            document.getElementById("primary").checked = false;
+            document.getElementById("foreign").checked = false;
+            document.getElementById("null").checked = false;
+
+            alert('Atributo añadido a la lista.');
+        }
+
+
+        function onSubmitForm(event) {
+            if (attributes.length === 0) {
+                alert('Debe agregar al menos un atributo antes de enviar el formulario.');
+                event.preventDefault();
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="header">
+        <h1 class="title">DataVision</h1>
+        <div class="estados">
+            <p class="estado">Estado:</p>
+            <p class="conexion">
+                <%= conectado ? 'Conectado' : 'No Conectado' %>
+            </p>
+            <p class="latencia">Latencia: <%= conectado ? latencia + 'ms' : 'N/A' %>
+            </p><i class="fa-solid fa-signal"></i>
+        </div>
+    </div>
+    <form action="/crearTabla" method="post" onsubmit="onSubmitForm(event)">
+        <div class="crear-TB tablas-bd">
+            <div id="table-section">
+                <label for="databaseName">Nombre de la Base de Datos:</label>
+                <input type="text" id="databaseName" name="databaseName" required>
+                <br>
+                <label for="tableName">Nombre de la Tabla:</label>
+                <input type="text" id="tableName" name="tableName" required>
+            </div>
+
+            <div id="attribute-section">
+                <h2>Atributos de la Tabla</h2>
+                <div class="form-nomTab">
+                    <label for="attributeName">Nombre del Atributo:</label>
+                    <input type="text" id="attributeName" name="attributeName" required>
+                </div>
+                <div class="form-tipoAt">
+                    <label for="attributeType">Tipo del Atributo:</label>
+                    <select id="attributeType" name="attributeType" onchange="checkVarcharType()" required>
+                        <option value="int">int</option>
+                        <option value="varchar">varchar</option>
+                        <option value="double">double</option>
+                    </select>
+                </div>
+                <div class="form-varchar" id="varcharSizeGroup" style="display: none;">
+                    <label for="varcharSize">Tamaño de varchar:</label>
+                    <input type="number" id="varcharSize" name="varcharSize" min="1">
+                </div>
+                <div class="form-carac">
+                    <label>Características del atributo:</label>
+                    <div>
+                        <label for="unique" class="cyberpunk-checkbox-label"><input type="checkbox" id="unique" name="unique" class="cyberpunk-checkbox">Única</label>
+                    </div>
+                    <div>
+                        <label for="not_null"><input type="checkbox" id="not_null" name="not_null">No Nulo</label>
+                    </div>
+                    <div>
+                        <label for="primary"><input type="checkbox" id="primary" name="primary">Llave Primaria</label>
+                    </div>
+                    <div>
+                        <label for="foreign"><input type="checkbox" id="foreign" name="foreign">Llave Foránea</label>
+                    </div>
+                    <div>
+                        <label for="null"><input type="checkbox" id="null" name="null">Nulo</label>
+                    </div>
+                </div>
+                <button type="button" id="btn_agAt" class="btn-crear btn-atributo" onclick="addAttributeToList()">Agregar Atributo</button>
+                <br><br>
+                <button type="submit" id="btn_cTab" class="btn-crear btn-cr-tb">Crear Tabla</button>
+            </div>
+            <input type="hidden" id="attributes" name="attributes">
+        </div>
+    </form>
+</body>
+
+</html>
