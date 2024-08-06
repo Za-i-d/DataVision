@@ -15,7 +15,6 @@ class ConectarBD {
                 user:process.env.USER,
                 password:process.env.PASSWORD,
                 port:process.env.PORTBD,
-                socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
             });
             const end = Date.now();
             const latencia = end - start;
